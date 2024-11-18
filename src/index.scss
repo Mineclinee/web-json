@@ -2,7 +2,6 @@
 
 :root {
   // base
-  --font-family: 'Montserrat', sans-serif;
   --content-width: 1220px;
   --container-offset: 20px;
   --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
@@ -48,6 +47,7 @@ html {
 }
 
 body {
+  font-family: serif;
   background: #693a0a;
   background: linear-gradient(90deg, #693a0a, #b79f37);
 }

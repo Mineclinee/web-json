@@ -83,23 +83,27 @@ const Card: React.FC = () => {
           <div className="container">
             <article key={person.fio} className="grid card__container">
               <div className="card__content">
-                <p className="subtitle card__subtitle">
-                  <a
-                    href={person.wiki}
-                    target="_blank"
-                    style={{ display: 'flex', alignItems: 'center' }}
-                  >
-                    <WikipediaIcon />
-                  </a>
-                  <a
-                    href={createYouTubeLink(person.jt, person.mn)}
-                    target="_blank"
-                    style={{ display: 'flex', alignItems: 'center' }}
-                  >
-                    <YoutubeIcon />
-                  </a>
-                  {person.db} — {person.dd}
-                </p>
+                <div className="subtitle card__subtitle">
+                  <div className="card__links">
+                    <a
+                      className="card__link"
+                      href={person.wiki}
+                      target="_blank"
+                    >
+                      <WikipediaIcon />
+                    </a>
+                    <a
+                      className="card__link"
+                      href={createYouTubeLink(person.jt, person.mn)}
+                      target="_blank"
+                    >
+                      <YoutubeIcon />
+                    </a>
+                  </div>
+                  <p>
+                    {person.db} — {person.dd}
+                  </p>
+                </div>
                 <h2 className="title card__title">{person.fio}</h2>
                 <p className="text card__text">
                   {wikiData[person.fio]
