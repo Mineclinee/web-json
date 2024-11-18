@@ -1,26 +1,29 @@
+import './Hero.scss';
+
 const Hero: React.FC = () => {
   return (
-    <section className="first bg flex-all-center hero">
-      <div className="swiper-first hero__main">
-        <div className="swiper-wrapper hero__wrapper">
-          <div className="swiper-slide swiper-slide-active hero__slide">
+    <section className="bg flex-all-center hero">
+      <div className="hero__main">
+        <div className="hero__wrapper">
+          <div className="hero__slide">
             <img
               className="hero__img"
               src="/Pushkin.jpg"
-              alt="team squad before the start"
+              alt="Александр Сергеевич Пушкин"
+              aria-hidden={true}
             />
           </div>
         </div>
       </div>
-      <div className="first__container container hero__container">
-        <h2 className="first__title title hero__title">
+      <div className="container hero__container">
+        <h1 className="first__title title hero__title">
           Значимые имена и их след в истории
-        </h2>
-        <span className="first__subtitle subtitle hero__subtitle">
+        </h1>
+        <p className="first__subtitle subtitle hero__subtitle">
           Откройте для себя вдохновляющие истории выдающихся людей и их
           достижения.
-        </span>
-        <a className="first__link link hiro__link" href="#persons">
+        </p>
+        <a className="first__link link hero__link" href="#persons">
           Перейти
         </a>
       </div>
