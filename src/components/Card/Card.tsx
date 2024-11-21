@@ -4,6 +4,7 @@ import { Wiki } from '../../types/Wiki';
 import personsData from '../../utils/personsData';
 import { createYouTubeLink } from '../../utils/youtubeLink';
 import Loader from '../Loader/Loader';
+import SortByProfession from '../SortingsByProfession/SortByProfession';
 import WikipediaIcon from '../SvgIcons/WikipediaIcon';
 import YoutubeIcon from '../SvgIcons/YoutubeIcon';
 import './Card.scss';
@@ -11,8 +12,31 @@ import './Card.scss';
 const Card: React.FC = () => {
   const [data, setData] = useState<Person[]>([]);
   const [wikiData, setWikiData] = useState<Record<string, Wiki>>({});
-  const [loadingCount, setLoadingCount] = useState(0);
+  const [loadingCount, setLoadingCount] = useState<number>(0);
+  const [selectedProfession, setSelectedProfession] = useState<string>('');
   const totalPersons = personsData.length;
+
+  const professions = [
+    ...new Set(personsData.map((person) => person.prof.trim())),
+  ].sort((a, b) => a.localeCompare(b));
+
+  useEffect(() => {
+    const savedProfession = localStorage.getItem('selectedProfession');
+    if (savedProfession) {
+      setSelectedProfession(savedProfession);
+    }
+    setData(personsData);
+  }, []);
+
+  const handleProfessionChange = (profession: string) => {
+    setSelectedProfession(profession);
+
+    if (profession) {
+      localStorage.setItem('selectedProfession', profession);
+    } else {
+      localStorage.removeItem('selectedProfession');
+    }
+  };
 
   const fetchWikipediaData = async (name: string) => {
     const url = `https://ru.wikipedia.org/w/api.php?format=json&action=query&prop=extracts|pageimages&exintro&explaintext&generator=search&gsrsearch=intitle:${encodeURIComponent(
@@ -76,56 +100,71 @@ const Card: React.FC = () => {
     loadWikiData();
   }, []);
 
+  const filteredData = selectedProfession
+    ? data.filter((person) => person.prof === selectedProfession)
+    : data;
+
   return (
-    <section id="persons" className="bg card">
-      {localStorage.getItem('wikiData') ? (
-        data.map((person) => (
-          <div className="container">
-            <article key={person.fio} className="grid card__container">
-              <div className="card__content">
-                <div className="subtitle card__subtitle">
-                  <div className="card__links">
-                    <a
-                      className="card__link"
-                      href={person.wiki}
-                      target="_blank"
-                    >
-                      <WikipediaIcon />
-                    </a>
-                    <a
-                      className="card__link"
-                      href={createYouTubeLink(person.jt, person.mn)}
-                      target="_blank"
-                    >
-                      <YoutubeIcon />
-                    </a>
+    <section id="persons" className="card">
+      <div className="container">
+        {localStorage.getItem('wikiData') && (
+          <SortByProfession
+            professions={professions}
+            onChange={handleProfessionChange}
+            selectedProfession={selectedProfession}
+          />
+        )}
+        <ul className="cards">
+          {localStorage.getItem('wikiData') ? (
+            filteredData.map((person) => (
+              <li className="grid card__container" key={person.fio}>
+                <div className="card__content">
+                  <div className="subtitle card__subtitle">
+                    <div className="card__links">
+                      <a
+                        className="card__link"
+                        href={person.wiki}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <WikipediaIcon />
+                      </a>
+                      <a
+                        className="card__link"
+                        href={createYouTubeLink(person.jt, person.mn)}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <YoutubeIcon />
+                      </a>
+                    </div>
+                    <p>
+                      {person.db} — {person.dd}
+                    </p>
                   </div>
-                  <p>
-                    {person.db} — {person.dd}
+                  <h2 className="title card__title">{person.fio}</h2>
+                  <p className="text card__text">
+                    {wikiData[person.fio]
+                      ? wikiData[person.fio].extract
+                      : 'Описание недоступно.'}
                   </p>
                 </div>
-                <h2 className="title card__title">{person.fio}</h2>
-                <p className="text card__text">
-                  {wikiData[person.fio]
-                    ? wikiData[person.fio].extract
-                    : 'Описание недоступно.'}
-                </p>
-              </div>
-              <div className="card__right">
-                {wikiData[person.fio] && wikiData[person.fio].imageUrl && (
-                  <img
-                    className="card__img"
-                    src={wikiData[person.fio].imageUrl}
-                    alt={person.fio}
-                  />
-                )}
-              </div>
-            </article>
-          </div>
-        ))
-      ) : (
-        <Loader loadingCount={loadingCount} totalPersons={totalPersons} />
-      )}
+                <div className="card__right">
+                  {wikiData[person.fio] && wikiData[person.fio].imageUrl && (
+                    <img
+                      className="card__img"
+                      src={wikiData[person.fio].imageUrl}
+                      alt={person.fio}
+                    />
+                  )}
+                </div>
+              </li>
+            ))
+          ) : (
+            <Loader loadingCount={loadingCount} totalPersons={totalPersons} />
+          )}
+        </ul>
+      </div>
     </section>
   );
 };

@@ -7,16 +7,10 @@
   --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
 
   // colors
-  --primary-color: #758963;
-  --accent-color: #3f5028;
-  --error-color: #ff5449;
-  --light-color: #f9f9f9;
-  --grey-color: #989998;
-  --text-color: #242424;
   --orange: #ffb548;
   --white: #fff;
-  --swiper-theme-color: #007aff;
 
+  // other
   --gap: 24px;
 }
 
@@ -80,7 +74,6 @@ li {
 
 .subtitle,
 .title {
-  font-family: Bebas-Neue;
   font-weight: 700;
   color: var(--white);
 }
