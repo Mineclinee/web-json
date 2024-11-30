@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Person } from '../../types/Person';
 import { Wiki } from '../../types/Wiki';
 import personsData from '../../utils/personsData';
@@ -9,7 +9,11 @@ import WikipediaIcon from '../SvgIcons/WikipediaIcon';
 import YoutubeIcon from '../SvgIcons/YoutubeIcon';
 import './Card.scss';
 
-const Card: React.FC = () => {
+type CardProps = {
+  selectedPerson: string | null;
+};
+
+const Card: React.FC<CardProps> = ({ selectedPerson }) => {
   const [data, setData] = useState<Person[]>([]);
   const [wikiData, setWikiData] = useState<Record<string, Wiki>>({});
   const [loadingCount, setLoadingCount] = useState<number>(0);
@@ -104,10 +108,14 @@ const Card: React.FC = () => {
     ? data.filter((person) => person.prof === selectedProfession)
     : data;
 
+  const selectedPersonData = selectedPerson
+    ? data.find((person) => person.fio === selectedPerson)
+    : null;
+
   return (
     <section id="persons" className="card">
       <div className="container">
-        {localStorage.getItem('wikiData') && (
+        {localStorage.getItem('wikiData') && !selectedPersonData && (
           <SortByProfession
             professions={professions}
             onChange={handleProfessionChange}
@@ -116,14 +124,14 @@ const Card: React.FC = () => {
         )}
         <ul className="cards">
           {localStorage.getItem('wikiData') ? (
-            filteredData.map((person) => (
-              <li className="grid card__container" key={person.fio}>
+            selectedPersonData ? (
+              <li className="grid card__container" key={selectedPersonData.fio}>
                 <div className="card__content">
                   <div className="subtitle card__subtitle">
                     <div className="card__links">
                       <a
                         className="card__link"
-                        href={person.wiki}
+                        href={selectedPersonData.wiki}
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -131,7 +139,10 @@ const Card: React.FC = () => {
                       </a>
                       <a
                         className="card__link"
-                        href={createYouTubeLink(person.jt, person.mn)}
+                        href={createYouTubeLink(
+                          selectedPersonData.jt,
+                          selectedPersonData.mn
+                        )}
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -139,27 +150,75 @@ const Card: React.FC = () => {
                       </a>
                     </div>
                     <p>
-                      {person.db} — {person.dd}
+                      {selectedPersonData.db} — {selectedPersonData.dd}
                     </p>
                   </div>
-                  <h2 className="title card__title">{person.fio}</h2>
+                  <h2 className="title card__title">
+                    {selectedPersonData.fio}
+                  </h2>
                   <p className="text card__text">
-                    {wikiData[person.fio]
-                      ? wikiData[person.fio].extract
+                    {wikiData[selectedPersonData.fio]
+                      ? wikiData[selectedPersonData.fio].extract
                       : 'Описание недоступно.'}
                   </p>
                 </div>
                 <div className="card__right">
-                  {wikiData[person.fio] && wikiData[person.fio].imageUrl && (
-                    <img
-                      className="card__img"
-                      src={wikiData[person.fio].imageUrl}
-                      alt={person.fio}
-                    />
-                  )}
+                  {wikiData[selectedPersonData.fio] &&
+                    wikiData[selectedPersonData.fio].imageUrl && (
+                      <img
+                        className="card__img"
+                        src={wikiData[selectedPersonData.fio].imageUrl}
+                        alt={selectedPersonData.fio}
+                      />
+                    )}
                 </div>
               </li>
-            ))
+            ) : (
+              filteredData.map((person) => (
+                <li className="grid card__container" key={person.fio}>
+                  <div className="card__content">
+                    <div className="subtitle card__subtitle">
+                      <div className="card__links">
+                        <a
+                          className="card__link"
+                          href={person.wiki}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <WikipediaIcon />
+                        </a>
+                        <a
+                          className="card__link"
+                          href={createYouTubeLink(person.jt, person.mn)}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <YoutubeIcon />
+                        </a>
+                      </div>
+                      <p>
+                        {person.db} — {person.dd}
+                      </p>
+                    </div>
+                    <h2 className="title card__title">{person.fio}</h2>
+                    <p className="text card__text">
+                      {wikiData[person.fio]
+                        ? wikiData[person.fio].extract
+                        : 'Описание недоступно.'}
+                    </p>
+                  </div>
+                  <div className="card__right">
+                    {wikiData[person.fio] && wikiData[person.fio].imageUrl && (
+                      <img
+                        className="card__img"
+                        src={wikiData[person.fio].imageUrl}
+                        alt={person.fio}
+                      />
+                    )}
+                  </div>
+                </li>
+              ))
+            )
           ) : (
             <Loader loadingCount={loadingCount} totalPersons={totalPersons} />
           )}

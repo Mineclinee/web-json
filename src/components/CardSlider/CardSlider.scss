@@ -3,12 +3,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--white);
-    border-radius: 20px;
+    background-color: var(--orange);
+    border-radius: 10px;
+    padding: 7px;
+    max-width: 250px;
   }
   &__text {
     font-size: 30px;
     text-wrap: pretty;
+    text-align: center;
     color: var(--black);
+    user-select: none;
+    cursor: pointer;
   }
+}
+
+.swiper-wrapper {
+  align-items: center !important;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  --swiper-navigation-size: 32px;
+  color: var(--black);
+}
+
+.swiper-slide:first-child {
+  margin-left: 35px;
 }
