@@ -4,6 +4,11 @@
   &__link {
     background-color: var(--orange);
     align-self: center;
+    transition: var(--duration) background-color;
+
+    &:hover {
+      background-color: darken(#ffb548, 10);
+    }
   }
 
   &__container {

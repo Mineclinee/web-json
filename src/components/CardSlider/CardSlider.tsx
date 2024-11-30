@@ -14,9 +14,13 @@ interface CardSliderProps {
 }
 
 const CardSlider: React.FC<CardSliderProps> = ({ onPersonSelect }) => {
-  const handlePersonClick = (e: React.MouseEvent<HTMLParagraphElement>) => {
-    const personName = e.currentTarget.innerHTML;
-    onPersonSelect(personName);
+  const handlePersonClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const text = e.currentTarget.querySelector('.card-slider__text');
+
+    if (text) {
+      const personName = text.innerHTML;
+      onPersonSelect(personName);
+    }
   };
 
   const sortedPersonsData = [...personsData].sort((a, b) =>
@@ -27,7 +31,7 @@ const CardSlider: React.FC<CardSliderProps> = ({ onPersonSelect }) => {
     <Swiper
       modules={[FreeMode, Navigation, Scrollbar]}
       navigation
-      height={300}
+      height={500}
       slidesPerView={5}
       a11y={{
         prevSlideMessage: 'Previous slide',
@@ -43,10 +47,9 @@ const CardSlider: React.FC<CardSliderProps> = ({ onPersonSelect }) => {
     >
       {sortedPersonsData.map((person) => (
         <SwiperSlide key={person.fio}>
-          <div className="card-slider__container">
-            <p className="card-slider__text" onClick={handlePersonClick}>
-              {person.fio}
-            </p>
+          <div className="card-slider__container" onClick={handlePersonClick}>
+            <p className="card-slider__text">{person.fio}</p>
+            <span className="card-slider__prof">{person.prof}</span>
           </div>
         </SwiperSlide>
       ))}

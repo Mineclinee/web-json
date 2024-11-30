@@ -1,25 +1,41 @@
 .card-slider {
+  --swiper-scrollbar-size: 8px;
+
   &__container {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     background-color: var(--orange);
     border-radius: 10px;
     padding: 7px;
     max-width: 250px;
+    transition: var(--duration) background-color;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(#ffb548, 10);
+    }
   }
+
   &__text {
-    font-size: 30px;
+    font-size: 28px;
     text-wrap: pretty;
+    margin-bottom: 8px;
     text-align: center;
     color: var(--black);
     user-select: none;
-    cursor: pointer;
+  }
+
+  &__prof {
+    font-size: 14px;
+    user-select: none;
   }
 }
 
 .swiper-wrapper {
   align-items: center !important;
+  min-height: 300px;
 }
 
 .swiper-button-prev,
