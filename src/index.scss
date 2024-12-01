@@ -9,6 +9,7 @@
   // colors
   --orange: #ffb548;
   --white: #fff;
+  --black: #000;
 
   // other
   --gap: 24px;
@@ -139,4 +140,27 @@ li {
   background-size: cover;
   background-repeat: no-repeat;
   min-height: 100vh;
+}
+
+.btn {
+  margin: 30px auto;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-wrap: pretty;
+  background-color: var(--orange);
+  border-radius: 10px;
+  padding: 7px;
+  transition: var(--duration) background-color;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken(#ffb548, 10);
+  }
+}
+
+#persons {
+  padding-bottom: 70px;
 }

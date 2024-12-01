@@ -86,3 +86,10 @@
 .card:has(.loader) {
   min-height: 100vh;
 }
+
+.persons--single:has(.cards) {
+  .card__text {
+    overflow: auto;
+    max-height: none;
+  }
+}

@@ -1,4 +1,4 @@
-import './SortByProfession.scss';
+import '../Sort.scss';
 
 type SortByProfessionType = {
   professions: string[];

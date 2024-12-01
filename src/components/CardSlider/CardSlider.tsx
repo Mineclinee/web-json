@@ -33,6 +33,7 @@ const CardSlider: React.FC<CardSliderProps> = ({ onPersonSelect }) => {
       navigation
       height={500}
       slidesPerView={5}
+      slidesPerGroup={5}
       a11y={{
         prevSlideMessage: 'Previous slide',
         nextSlideMessage: 'Next slide',

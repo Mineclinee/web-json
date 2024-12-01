@@ -2,7 +2,7 @@ import './Loader.scss';
 
 type LoaderType = {
   loadingCount: number;
-  totalPersons: number;
+  totalPersons: number | null;
 };
 
 const Loader = ({ loadingCount, totalPersons }: LoaderType) => {

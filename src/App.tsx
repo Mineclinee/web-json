@@ -1,26 +1,3 @@
-// import React, { useState } from 'react';
-// import Card from './components/Card/Card';
-// import CardSlider from './components/CardSlider/CardSlider';
-// import Hero from './components/Hero/Hero';
-
-// const App: React.FC = () => {
-//   const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
-
-//   const handlePersonSelect = (personName: string) => {
-//     setSelectedPerson(personName);
-//   };
-
-//   return (
-//     <main>
-//       <Hero />
-//       <CardSlider onPersonSelect={handlePersonSelect} />
-//       <Card selectedPerson={selectedPerson} />
-//     </main>
-//   );
-// };
-
-// export default App;
-
 import React, { useState } from 'react';
 import Card from './components/Card/Card';
 import CardSlider from './components/CardSlider/CardSlider';
@@ -48,19 +25,27 @@ const App: React.FC = () => {
     <main>
       <Hero />
       {displayMode === 'single' && (
-        <>
+        <section id="persons" className="persons--single">
+          <button
+            className="card-slider__container btn"
+            onClick={handleLoadAll}
+          >
+            Загрузить всех
+          </button>
           <CardSlider onPersonSelect={handlePersonSelect} />
-          <button onClick={handleLoadAll}>Загрузить всех</button>
           {selectedPerson && <Card selectedPerson={selectedPerson} />}
-        </>
+        </section>
       )}
       {displayMode === 'all' && (
-        <>
-          <button onClick={handleReturnToSelection}>
-            Вернуться к выбору отдельной
+        <section id="persons" className="persons--all">
+          <button
+            className="card-slider__container btn"
+            onClick={handleReturnToSelection}
+          >
+            Вернуться к выбору отдельной личности
           </button>
           <Card selectedPerson={null} />
-        </>
+        </section>
       )}
     </main>
   );
