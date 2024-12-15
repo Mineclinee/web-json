@@ -5,13 +5,13 @@
 1. Клонируйте репозиторий проекта с помощью Git:
 
    ```bash
-   $ git clone https://github.com/D4n1el13and37/e-commerce-app
+   $ git clone https://github.com/Mineclinee/web-json
    ```
 
 2. Перейдите в папку проекта:
 
    ```bash
-   $ cd e-commerce-app
+   $ cd web-json
    ```
 
 3. Установите все зависимости:
