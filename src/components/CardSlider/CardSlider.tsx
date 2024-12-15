@@ -3,15 +3,12 @@ import { FreeMode, Navigation, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import personsData from '../../utils/personsData';
 
-import 'swiper/scss';
-import 'swiper/scss/free-mode';
-import 'swiper/scss/navigation';
-import 'swiper/scss/scrollbar';
+import 'swiper/swiper-bundle.css';
 import './CardSlider.scss';
 
-interface CardSliderProps {
+type CardSliderProps = {
   onPersonSelect: (personName: string) => void;
-}
+};
 
 const CardSlider: React.FC<CardSliderProps> = ({ onPersonSelect }) => {
   const handlePersonClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -45,6 +42,30 @@ const CardSlider: React.FC<CardSliderProps> = ({ onPersonSelect }) => {
         enabled: true,
       }}
       className="card-slider"
+      breakpoints={{
+        300: {
+          slidesPerView: 'auto',
+          slidesPerGroup: 1,
+          scrollbar: {
+            hide: true,
+          },
+          centeredSlides: true,
+        },
+        600: {
+          slidesPerView: 2,
+          spaceBetween: 2,
+          slidesPerGroup: 2,
+        },
+        1100: {
+          slidesPerView: 3,
+
+          slidesPerGroup: 3,
+        },
+        1500: {
+          slidesPerView: 4,
+          slidesPerGroup: 4,
+        },
+      }}
     >
       {sortedPersonsData.map((person) => (
         <SwiperSlide key={person.fio}>

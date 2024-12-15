@@ -45,5 +45,13 @@
 }
 
 .swiper-slide:first-child {
-  margin-left: 35px;
+  margin-left: 70px;
+
+  @media (max-width: 1640px) {
+    margin-left: 40px;
+  }
+
+  @media (max-width: 600px) {
+    margin-left: 0;
+  }
 }
